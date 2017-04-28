@@ -1,0 +1,10 @@
+language: objective-c
+osx_image: xcode7.2
+
+install:
+  - pod install --project-directory=./Tests/iOS
+  - pod install --project-directory=./Tests/Mac --no-repo-update
+
+script:
+  - set -o pipefail && xcodebuild -workspace ./Tests/iOS/ProxyKit.xcworkspace -scheme ProxyKitTestsiOS -destination 'platform=iOS Simulator,name=iPhone 6' test | xcpretty
+  - xctool -workspace ./Tests/Mac/ProxyKit.xcworkspace -scheme ProxyKitTestsMac -sdk macosx test
